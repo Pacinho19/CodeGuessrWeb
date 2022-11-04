@@ -18,6 +18,15 @@
     });
 
     function fileAction(fileName, parent){
-        console.log(fileName);
-        console.log(parent);
+         var xhr = new XMLHttpRequest();
+         var url = "/code-guessr/code";
+         xhr.open("POST", url, true);
+         xhr.setRequestHeader("Content-Type", "application/json");
+         xhr.onreadystatechange = function () {
+             if (xhr.readyState === 4 && xhr.status === 200) {
+                $("#codeContent").replaceWith(xhr.responseText);
+             }
+         };
+         var data = JSON.stringify({"name":fileName, "parent": parent});
+         xhr.send(data);
     }

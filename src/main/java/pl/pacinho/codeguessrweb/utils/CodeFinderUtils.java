@@ -11,9 +11,9 @@ import java.util.List;
 
 public class CodeFinderUtils {
 
-    private static List<Project> projects = ProjectsTools.getProjects();
 
     public static Code getRandomCode() {
+        List<Project> projects = ProjectsTools.getProjects();
         Project project = projects.get(RandomUtils.getInt(0, projects.size() - 1));
         Collection<String> contents = project.getFilesContent().keySet();
         String filePath = contents.stream()

@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="codeContentFrag">
+    <div id="codeContent">
+        <textarea readonly th:if="${codeContent!=null}" id="codeContentTA" name="codeContentTA" style="width:100%;height200px;" rows="15" th:text="${codeContent}">
+        </textarea>
+    </div>
+</div>
+</body>
+</html>

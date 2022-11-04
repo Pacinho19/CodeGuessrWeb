@@ -8,4 +8,5 @@ public class UIConfig {
     public static final String GAME_PAGE = GAMES + "/{gameId}";
     public static final String PLAYERS = GAME_ROOM + "/players";
     public static final String GAME_TREE_NODES = HOME + "/nodes";
+    public static final String CODE_CONTENT = HOME + "/code";
 }

@@ -3,6 +3,8 @@ package pl.pacinho.codeguessrweb.model.enums.project;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.util.Arrays;
+
 @RequiredArgsConstructor
 public enum Projects {
 
@@ -11,4 +13,11 @@ public enum Projects {
 
     @Getter
     private final String directory;
+
+    public static Projects findByDirectory(String directory) {
+        return Arrays.stream(Projects.values())
+                .filter(p -> p.getDirectory().equals(directory))
+                .findFirst()
+                .orElse(null);
+    }
 }
