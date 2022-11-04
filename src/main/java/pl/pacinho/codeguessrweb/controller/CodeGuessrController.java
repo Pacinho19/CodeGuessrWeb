@@ -6,6 +6,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import pl.pacinho.codeguessrweb.model.game.AnswerDto;
 import pl.pacinho.codeguessrweb.model.game.GameActionDto;
 import pl.pacinho.codeguessrweb.model.game.JoinGameDto;
 import pl.pacinho.codeguessrweb.service.GameService;
@@ -27,6 +28,11 @@ public class CodeGuessrController {
         }
         simpMessagingTemplate.convertAndSend("/join/" + gameActionDto.getGameId(),
                 new JoinGameDto(authentication.getName(), gameService.checkStartGame(gameActionDto.getGameId()), exception));
+    }
+
+    @MessageMapping("/guess")
+    public void guess(@Payload AnswerDto answerDto, Authentication authentication) {
+        System.out.println(authentication.getName() + " -> " + answerDto);
     }
 
 }

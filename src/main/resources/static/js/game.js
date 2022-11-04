@@ -1,3 +1,7 @@
+    var stompClient = null;
+    var privateStompClient = null;
+    socket = new SockJS('/ws');
+
     $(document).ready(function () {
         $.ajax({
             "type": 'get',
@@ -46,6 +50,12 @@
          xhr.send(data);
     }
 
+    stompClient = Stomp.over(socket);
     function guess(){
         var lineNumber = document.getElementById("codeLineNumberInput").value;
+        var gameId = document.getElementById('gameId').value;
+        var file = document.getElementById('selectedFile').value;
+
+        stompClient.send("/app/guess", {},
+                            JSON.stringify({'gameId':gameId, 'lineNumber': lineNumber, 'file' : file}));
     }
