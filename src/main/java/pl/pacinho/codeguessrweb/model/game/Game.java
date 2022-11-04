@@ -2,6 +2,7 @@ package pl.pacinho.codeguessrweb.model.game;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.pacinho.codeguessrweb.exception.PlayerNotFoundException;
 import pl.pacinho.codeguessrweb.model.game.enums.GameStatus;
 import pl.pacinho.codeguessrweb.model.project.Code;
 import pl.pacinho.codeguessrweb.utils.CodeFinderUtils;
@@ -31,4 +32,10 @@ public class Game {
         this.code = CodeFinderUtils.getRandomCode();
     }
 
+    public PlayerDto getPlayer(String playerName) {
+        return players.stream()
+                .filter(p -> p.getName().equals(playerName))
+                .findFirst()
+                .orElseThrow(() -> new PlayerNotFoundException(playerName));
+    }
 }

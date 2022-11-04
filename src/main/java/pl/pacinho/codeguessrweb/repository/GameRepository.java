@@ -47,7 +47,7 @@ public class GameRepository {
         if (game.getStatus() != GameStatus.NEW)
             throw new IllegalStateException("Cannot join to " + gameId + ". Game status : " + game.getStatus());
 
-        if (game.getPlayers().get(0).name().equals(name))
+        if (game.getPlayers().get(0).getName().equals(name))
             throw new IllegalStateException("Game " + gameId + " was created by you!");
 
         game.getPlayers().add(new PlayerDto(name));

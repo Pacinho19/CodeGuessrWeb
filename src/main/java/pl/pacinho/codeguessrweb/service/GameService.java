@@ -51,21 +51,21 @@ public class GameService {
     }
 
     public boolean canJoin(GameDto game, String name) {
-        return game.getPlayers().size() < MAX_PLAYERS && game.getPlayers().stream().noneMatch(p -> p.name().equals(name));
+        return game.getPlayers().size() < MAX_PLAYERS && game.getPlayers().stream().noneMatch(p -> p.equals(name));
     }
 
 
     public boolean checkPlayGame(String name, GameDto game) {
         return game.getPlayers()
                 .stream()
-                .anyMatch(p -> p.name().equals(name));
+                .anyMatch(p -> p.equals(name));
     }
 
     public void checkGamePage(GameDto game, String name) {
         if (game.getStatus() != GameStatus.IN_PROGRESS)
             throw new IllegalStateException("Game " + game.getId() + " not started !");
 
-        if(!checkPlayGame(name, game))
+        if (!checkPlayGame(name, game))
             throw new IllegalStateException("Game " + game.getId() + " in progress! You can't open game page!");
     }
 
@@ -92,6 +92,8 @@ public class GameService {
         BigDecimal linePoints = !projectPoints.equals(BigDecimal.valueOf(4_000)) ? BigDecimal.ZERO : BigDecimal.valueOf(1_000L * ((100 - correctPercent) / 100));
         BigDecimal result = projectPoints.add(linePoints).setScale(0, RoundingMode.HALF_UP);
 
-        return new RoundResultDto(result, game.getCode().lineIndex(), correctPath);
+        RoundResultDto roundResultDto = new RoundResultDto(result, game.getCode().lineIndex()+1, correctPath);
+        game.getPlayer(playerName).setRoundResultDto(roundResultDto);
+        return roundResultDto;
     }
 }

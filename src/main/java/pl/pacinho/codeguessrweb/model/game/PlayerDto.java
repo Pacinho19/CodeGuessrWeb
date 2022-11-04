@@ -1,7 +1,14 @@
 package pl.pacinho.codeguessrweb.model.game;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-public record PlayerDto(String name) {
+@Getter
+@RequiredArgsConstructor
+public class PlayerDto {
+    private final String name;
+
+    @Setter
+    private RoundResultDto roundResultDto;
 }

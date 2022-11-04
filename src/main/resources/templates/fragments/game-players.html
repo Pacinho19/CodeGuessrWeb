@@ -4,7 +4,7 @@
     <table class="center">
       <tr th:each="i : ${#numbers.sequence(1,2)}">
         <td th:if="${i<=game.players.size}">
-          <span th:text="${i + '. ' + game.players[i-1].name}"></span>
+          <span th:text="${i + '. ' + game.players[i-1]}"></span>
         </td>
         <td th:if="${i>game.players.size}">
           <span th:text="${i + '. WAITING'}"></span>

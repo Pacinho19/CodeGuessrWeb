@@ -8,6 +8,7 @@ import pl.pacinho.codeguessrweb.model.project.dto.CodeDto;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -16,7 +17,7 @@ public class GameDto {
 
     private String id;
     private GameStatus status;
-    private LinkedList<PlayerDto> players;
+    private List<String> players;
     private LocalDateTime startTime;
     private CodeDto code;
 }
