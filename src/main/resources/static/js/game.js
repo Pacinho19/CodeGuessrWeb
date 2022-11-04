@@ -45,3 +45,7 @@
          var data = JSON.stringify({"name":fileName, "parent": parent});
          xhr.send(data);
     }
+
+    function guess(){
+        var lineNumber = document.getElementById("codeLineNumberInput").value;
+    }
