@@ -32,7 +32,7 @@ public class CodeGuessrController {
 
     @MessageMapping("/guess")
     public void guess(@Payload AnswerDto answerDto, Authentication authentication) {
-        System.out.println(authentication.getName() + " -> " + answerDto);
+        System.out.println(gameService.checkAnswer(answerDto, authentication.getName()));
     }
 
 }
