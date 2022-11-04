@@ -30,6 +30,8 @@
     function fileAction(fileName, parent){
          setSelected(fileName, parent);
 
+
+         document.getElementById("selectedFile").value = '';
          var xhr = new XMLHttpRequest();
          var url = "/code-guessr/code";
          xhr.open("POST", url, true);
@@ -37,6 +39,7 @@
          xhr.onreadystatechange = function () {
              if (xhr.readyState === 4 && xhr.status === 200) {
                 $("#codeContent").replaceWith(xhr.responseText);
+                document.getElementById("selectedFile").value = parent + '/' + fileName;
              }
          };
          var data = JSON.stringify({"name":fileName, "parent": parent});
