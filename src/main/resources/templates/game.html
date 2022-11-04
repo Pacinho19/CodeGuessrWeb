@@ -36,6 +36,8 @@
     </style>
 </head>
 <body>
+<div th:replace="fragments/topnav :: navbar"/>
+
 <div class="row" style="margin-top:1%">
     <div class="col-md-6">
         <div class="row" style="text-align:center">
@@ -81,9 +83,6 @@
 
     </div>
     <div class="col-md-2">
-        <div class="row" style="text-align:center">
-            <button type="button" class="btn btn-primary center" onclick="home();" style="width:90%">Home</button>
-        </div>
     </div>
 </div>
 
