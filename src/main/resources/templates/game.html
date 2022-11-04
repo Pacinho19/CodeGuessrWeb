@@ -20,7 +20,11 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
-    <script type="text/javascript" th:src="@{/js/game-room.js}"></script>
+
+    <link th:rel="stylesheet" th:href="@{/assets/jquery-treetable/jquery.treetable.css}"/>
+    <link th:rel="stylesheet" th:href="@{/assets/jquery-treetable/jquery.treetable.theme.default.css}"/>
+
+    <script type="text/javascript" th:src="@{/js/game.js}"></script>
     <script type="text/javascript" th:src="@{/js/core.js}"></script>
 
     <style>
@@ -29,15 +33,16 @@
           margin-right: auto;
         }
     </style>
-
 </head>
-<body onload="updatePlayers(false)">
-
+<body>
 <div class="row" style="margin-top:1%">
-    <div class="col-md-2" style="text-align:center">
-        <button type="button" class="btn btn-primary" onclick="home();">Home</button>
+    <div class="col-md-6" >
+        <div class="row" style="text-align:center">
+            <table id="treeTable" class="table center" style="width:90%">
+            </table>
+        </div>
     </div>
-    <div class="col-md-8" style="text-align:center">
+    <div class="col-md-4" style="text-align:center">
 
         <div th:if="${error!=null}" style="text-align:center; margin-top:1%"
              class="alert alert-danger alert-dismissible">
@@ -49,37 +54,23 @@
 
         <input type="hidden" id="gameId" th:value="${game.id}">
 
-        <div id="players" style="margin-top:1%"></div>
-
-        <hr class="rounded">
-
-        <button style="width:100%" th:if="${joinGame}" type="button" class="btn btn-primary" onclick="joinGame()" id="joinGameButton">
-            Join Game
-        </button>
-
-        <div class="row" id="error-alert" style="display:none;">
-            <hr class="rounded">
-            <div class="alert alert-danger" style="width:100%;height:50px;">
-                <button type="button" class="close" data-dismiss="alert">x</button>
-                <strong id="errorText"> </strong>
+        <div class="center" style="margin-top:1%;text-align:center;" id="codeToFindDiv">
+            <h3 class="center">Code to find</h3>
+            <hr>
+            <div class="row" th:each="line : ${game.code.lines}" style="width:100%">
+                <span th:text="${line.text}"
+                      th:style="${line.toFind ? 'color:green' : 'color:black'} + ';width:100%;text-align:left'"></span>
             </div>
         </div>
 
-
-        <div id="startGameDiv" style="display:none;margin-top:1%">
-            <h3>All players joined the game. Game loading!</h3>
-            <progress value="0" max="3" id="progressBar" style="text-align:center;height:40px;"></progress>
-        </div>
-
-
     </div>
     <div class="col-md-2">
-        <div class="alert alert-success" id="join-player-alert" style="display:none">
-            <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong id="playerJoinName"> </strong>
+        <div class="row" style="text-align:center">
+            <button type="button" class="btn btn-primary center" onclick="home();" style="width:90%">Home</button>
         </div>
     </div>
 </div>
 
+<script th:src="@{/assets/jquery-treetable/jquery.treetable.js}"></script>
 </body>
 </html>

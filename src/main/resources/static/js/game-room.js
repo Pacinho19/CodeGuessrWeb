@@ -35,10 +35,6 @@
                 });
             };
 
-            function home (){
-                window.location.href = '/code-guessr'
-            };
-
             function updatePlayers(startGame) {
                 var gameId = document.getElementById('gameId').value;
                 $.post("/code-guessr/games/" + gameId + "/room/players").done(function (fragment) {

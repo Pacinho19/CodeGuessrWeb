@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.pacinho.codeguessrweb.config.UIConfig;
+import pl.pacinho.codeguessrweb.model.game.Game;
 import pl.pacinho.codeguessrweb.model.game.GameDto;
 import pl.pacinho.codeguessrweb.model.game.enums.GameStatus;
 import pl.pacinho.codeguessrweb.service.GameService;

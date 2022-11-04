@@ -6,19 +6,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Getter
-public class NodeDto {
+public class Node {
 
+    private String id;
     private String name;
     private boolean file;
-    private Set<NodeDto> children;
+    private Set<Node> children;
 
-    public NodeDto(String name, boolean isFile) {
+    public Node(String id, String name, boolean isFile) {
         this.name = name;
+        this.id = id;
         this.file = isFile;
         children = new HashSet<>();
     }
 
-    public void addChild(NodeDto child) {
+    public void addChild(Node child) {
         children.add(child);
     }
 }

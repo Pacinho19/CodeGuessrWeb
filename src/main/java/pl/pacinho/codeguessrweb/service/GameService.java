@@ -3,8 +3,10 @@ package pl.pacinho.codeguessrweb.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.pacinho.codeguessrweb.exception.GameNotFoundException;
+import pl.pacinho.codeguessrweb.model.game.Game;
 import pl.pacinho.codeguessrweb.model.game.GameDto;
 import pl.pacinho.codeguessrweb.model.game.enums.GameStatus;
+import pl.pacinho.codeguessrweb.model.mapper.GameDtoMapper;
 import pl.pacinho.codeguessrweb.repository.GameRepository;
 
 import java.util.List;
@@ -28,13 +30,16 @@ public class GameService {
     }
 
     public GameDto findById(String gameId) {
-        return gameRepository.findById(gameId).orElseThrow(() -> new GameNotFoundException(gameId));
+        return GameDtoMapper.parse(gameRepository.findById(gameId)
+                .orElseThrow(() -> new GameNotFoundException(gameId)))
+                ;
     }
 
     public void joinGame(String name, String gameId) throws IllegalStateException {
-        GameDto game = gameRepository.joinGame(name, gameId);
+        Game game = gameRepository.joinGame(name, gameId);
         if (game.getPlayers().size() == MAX_PLAYERS) game.setStatus(GameStatus.IN_PROGRESS);
     }
+
     public boolean checkStartGame(String gameId) {
         return findById(gameId).getPlayers().size() == MAX_PLAYERS;
     }
