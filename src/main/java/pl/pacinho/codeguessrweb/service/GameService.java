@@ -54,4 +54,12 @@ public class GameService {
                 .stream()
                 .anyMatch(p -> p.name().equals(name));
     }
+
+    public void checkGamePage(GameDto game, String name) {
+        if (game.getStatus() != GameStatus.IN_PROGRESS)
+            throw new IllegalStateException("Game " + game.getId() + " not started !");
+
+        if(!checkPlayGame(name, game))
+            throw new IllegalStateException("Game " + game.getId() + " in progress! You can't open game page!");
+    }
 }

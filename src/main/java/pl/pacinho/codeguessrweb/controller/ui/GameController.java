@@ -59,11 +59,9 @@ public class GameController {
     public String gamePage(@PathVariable(value = "gameId") String gameId, Model model, Authentication authentication) {
         try {
             GameDto game = gameService.findById(gameId);
-            if(game.getStatus()!=GameStatus.IN_PROGRESS)
-                throw new IllegalStateException("Game "+gameId+ " not started !");
+            gameService.checkGamePage(game, authentication.getName());
 
             model.addAttribute("game", game);
-            model.addAttribute("canPlay", gameService.checkPlayGame(authentication.getName(), game));
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return gameHome(model);

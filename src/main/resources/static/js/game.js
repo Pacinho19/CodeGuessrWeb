@@ -5,7 +5,7 @@
             "dataType": "json",
             "success": function (data) {
                 $.each(data, function (idx, obj) {
-                    $("#treeTable").append("<tr style=\"text-align:left\"data-tt-id=\"" + obj.nodeId + "\" data-tt-parent-id=\"" + obj.pid + "\"><td><a href=\"#\" onclick=\"fileAction('"+obj.name+"','" + obj.pid +"')\">" + obj.name + "</a></td></tr>");
+                    $("#treeTable").append("<tr onclick=\"fileAction('"+obj.name+"','" + obj.pid +"')\" style=\"text-align:left\"data-tt-id=\"" + obj.nodeId + "\" data-tt-parent-id=\"" + obj.pid + "\"><td><a href=\"#\" onclick=\"fileAction('"+obj.name+"','" + obj.pid +"')\">" + obj.name + "</a></td><td style=\"text-align:right;\" id=\""+obj.name+"#"+obj.pid+"\"></td></tr>");
                 });
                 $("#treeTable").treetable({
                     expandable: true,
@@ -17,7 +17,19 @@
         });
     });
 
+    function setSelected(fileName, parent){
+            var selectedIconOld = document.getElementById("selectedIconId");
+            if(selectedIconOld!=null){
+                selectedIconOld.remove();
+            }
+
+             var selectedCol = document.getElementById(fileName + "#"+ parent);
+             selectedCol.innerHTML = '<i class="bi bi-arrow-left-square-fill" aria-hidden="true" id="selectedIconId" style="font-size:20px;color:green;"></i>';
+    }
+
     function fileAction(fileName, parent){
+         setSelected(fileName, parent);
+
          var xhr = new XMLHttpRequest();
          var url = "/code-guessr/code";
          xhr.open("POST", url, true);
