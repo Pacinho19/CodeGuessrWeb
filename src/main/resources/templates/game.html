@@ -69,7 +69,7 @@
         </div>
 
         <hr>
-        <div class="row">
+        <div class="row" id="answerInputs">
             <div class="col-md-4">
                 <input required id="codeLineNumberInput" type="number" min="1" style="width:100%;height:100%"  class="center" placeholder="Line Number">
             </div>
@@ -83,6 +83,10 @@
 
     </div>
     <div class="col-md-2">
+        <div class="alert alert-success" id="move-player-alert" style="display:none">
+            <button type="button" class="close" data-dismiss="alert">x</button>
+            <strong id="playerMoveText"> </strong>
+        </div>
     </div>
 </div>
 

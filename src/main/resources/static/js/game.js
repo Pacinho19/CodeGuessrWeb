@@ -2,6 +2,24 @@
     var privateStompClient = null;
     socket = new SockJS('/ws');
 
+        privateStompClient = Stomp.over(socket);
+            privateStompClient.connect({}, function(frame) {
+                var gameId = document.getElementById('gameId').value;
+                privateStompClient.subscribe('/game-status/' + gameId, function(result) {
+                var gameState = JSON.parse(result.body);
+                if(gameState.message!=null){
+                    showAlert(gameState.message);
+                }
+            });
+        });
+
+            function showAlert(text){
+                document.getElementById('playerMoveText').innerHTML = text;
+                $("#move-player-alert").fadeTo(2000, 500).slideUp(500, function() {
+                  $("#move-player-alert").slideUp(500);
+                });
+            };
+
     $(document).ready(function () {
         $.ajax({
             "type": 'get',
@@ -58,4 +76,6 @@
 
         stompClient.send("/app/guess", {},
                             JSON.stringify({'gameId':gameId, 'lineNumber': lineNumber, 'file' : file}));
+
+        document.getElementById("answerInputs").remove();
     }

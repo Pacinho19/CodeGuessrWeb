@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.pacinho.codeguessrweb.config.UIConfig;
-import pl.pacinho.codeguessrweb.model.game.Game;
 import pl.pacinho.codeguessrweb.model.game.GameDto;
 import pl.pacinho.codeguessrweb.model.game.enums.GameStatus;
 import pl.pacinho.codeguessrweb.service.GameService;
@@ -43,7 +42,7 @@ public class GameController {
     @GetMapping(UIConfig.GAME_ROOM)
     public String gameRoom(@PathVariable(value = "gameId") String gameId, Model model, Authentication authentication) {
         try {
-            GameDto game = gameService.findById(gameId);
+            GameDto game = gameService.findDtoById(gameId);
             if (game.getStatus() == GameStatus.IN_PROGRESS) return "redirect:" + UIConfig.GAMES + "/" + gameId;
 
             model.addAttribute("game", game);
@@ -58,7 +57,7 @@ public class GameController {
     @GetMapping(UIConfig.GAME_PAGE)
     public String gamePage(@PathVariable(value = "gameId") String gameId, Model model, Authentication authentication) {
         try {
-            GameDto game = gameService.findById(gameId);
+            GameDto game = gameService.findDtoById(gameId);
             gameService.checkGamePage(game, authentication.getName());
 
             model.addAttribute("game", game);
@@ -71,7 +70,7 @@ public class GameController {
 
     @PostMapping(UIConfig.PLAYERS)
     public String players(@PathVariable(value = "gameId") String gameId, Model model) {
-        GameDto game = gameService.findById(gameId);
+        GameDto game = gameService.findDtoById(gameId);
         model.addAttribute("game", game);
         return "fragments/game-players :: gamePlayersFrag";
     }

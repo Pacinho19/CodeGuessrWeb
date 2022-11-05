@@ -10,5 +10,5 @@ public class PlayerDto {
     private final String name;
 
     @Setter
-    private RoundResultDto roundResultDto;
+    private PlayerRoundResultDto playerRoundResultDto;
 }

@@ -4,10 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.pacinho.codeguessrweb.config.projects.ProjectsSourcesConfig;
 import pl.pacinho.codeguessrweb.exception.GameNotFoundException;
-import pl.pacinho.codeguessrweb.model.game.AnswerDto;
-import pl.pacinho.codeguessrweb.model.game.Game;
-import pl.pacinho.codeguessrweb.model.game.GameDto;
-import pl.pacinho.codeguessrweb.model.game.RoundResultDto;
+import pl.pacinho.codeguessrweb.model.game.*;
 import pl.pacinho.codeguessrweb.model.game.enums.GameStatus;
 import pl.pacinho.codeguessrweb.model.mapper.GameDtoMapper;
 import pl.pacinho.codeguessrweb.repository.GameRepository;
@@ -35,9 +32,13 @@ public class GameService {
         return gameRepository.newGame(name);
     }
 
-    public GameDto findById(String gameId) {
-        return GameDtoMapper.parse(gameRepository.findById(gameId)
-                .orElseThrow(() -> new GameNotFoundException(gameId)))
+    public GameDto findDtoById(String gameId) {
+        return GameDtoMapper.parse(findById(gameId));
+    }
+
+    public Game findById(String gameId) {
+        return gameRepository.findById(gameId)
+                .orElseThrow(() -> new GameNotFoundException(gameId))
                 ;
     }
 
@@ -47,7 +48,7 @@ public class GameService {
     }
 
     public boolean checkStartGame(String gameId) {
-        return findById(gameId).getPlayers().size() == MAX_PLAYERS;
+        return findDtoById(gameId).getPlayers().size() == MAX_PLAYERS;
     }
 
     public boolean canJoin(GameDto game, String name) {
@@ -69,9 +70,9 @@ public class GameService {
             throw new IllegalStateException("Game " + game.getId() + " in progress! You can't open game page!");
     }
 
-    public RoundResultDto checkAnswer(AnswerDto answerDto, String playerName) {
-        Game game = gameRepository.findById(answerDto.getGameId()).orElseThrow(() -> new GameNotFoundException(answerDto.getGameId()));
-        String correctPath = StringUtils.replaceSlashes(game.getCode().filePath().replace(ProjectsSourcesConfig.PROJECTS_PATH, ""));
+    public void checkAnswer(AnswerDto answerDto, String playerName) {
+        Game game = findById(answerDto.getGameId());
+        String correctPath = getCorrectPath(game);
         String[] partsOfCorrectPath = correctPath.split("/");
         String[] partsOfSelectedPath = answerDto.getFile().split("/");
 
@@ -86,14 +87,55 @@ public class GameService {
         }
 
         BigDecimal projectPoints = BigDecimal.valueOf(4_000 * ((double) correct / (double) partsOfCorrectPath.length)).setScale(0, RoundingMode.CEILING);
-        double correctPercent = ((double) Math.abs(game.getCode().lineIndex() + 1 - answerDto.getLineNumber())
+        double correctPercent = ((double) Math.abs(getCorrectLineNumber(game) - answerDto.getLineNumber())
                 / (double) game.getCode().fullCode().size()) * 100L;
 
         BigDecimal linePoints = !projectPoints.equals(BigDecimal.valueOf(4_000)) ? BigDecimal.ZERO : BigDecimal.valueOf(1_000L * ((100 - correctPercent) / 100));
         BigDecimal result = projectPoints.add(linePoints).setScale(0, RoundingMode.HALF_UP);
 
-        RoundResultDto roundResultDto = new RoundResultDto(result, game.getCode().lineIndex()+1, correctPath);
-        game.getPlayer(playerName).setRoundResultDto(roundResultDto);
-        return roundResultDto;
+        game.getPlayer(playerName)
+                .setPlayerRoundResultDto(
+                        new PlayerRoundResultDto(result, answerDto.getFile(), answerDto.getLineNumber())
+                );
+    }
+
+    private String getCorrectPath(Game game) {
+        return StringUtils.replaceSlashes(game.getCode().filePath().replace(ProjectsSourcesConfig.PROJECTS_PATH, ""));
+    }
+
+    public GameStateDto getGameStateInfo(String gameId, String name) {
+        Game game = findById(gameId);
+        boolean allPlayersFinishing = game.getPlayers()
+                .stream()
+                .allMatch(p -> p.getPlayerRoundResultDto() != null);
+
+        if (!allPlayersFinishing) return new GameStateDto(getPlayerEndRoundMessage(name), null);
+
+        return new GameStateDto(null, getRoundResultDto(game));
+    }
+
+    private RoundResultDto getRoundResultDto(Game game) {
+        return new RoundResultDto(getCorrectPath(game), getCorrectLineNumber(game), getPlayerAnswers(game));
+    }
+
+    private List<PlayerAnswerDto> getPlayerAnswers(Game game) {
+        return game.getPlayers()
+                .stream()
+                .map(this::getPlayerAnswer)
+                .toList();
+    }
+
+    private PlayerAnswerDto getPlayerAnswer(PlayerDto playerDto) {
+        return new PlayerAnswerDto(playerDto.getName(),
+                playerDto.getPlayerRoundResultDto().answerPath(),
+                playerDto.getPlayerRoundResultDto().answerLineNumber());
+    }
+
+    private int getCorrectLineNumber(Game game) {
+        return game.getCode().lineIndex() + 1;
+    }
+
+    private String getPlayerEndRoundMessage(String name) {
+        return "Player " + name + " has ended his round";
     }
 }
