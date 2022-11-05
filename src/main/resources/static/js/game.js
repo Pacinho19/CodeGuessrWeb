@@ -9,15 +9,11 @@
                 var gameState = JSON.parse(result.body);
                 if(gameState.message!=null){
                     showAlert(gameState.message);
-                }else if(gameState.roundResultDto!=null){
-                    showEndRoundModal(gameState.roundResultDto);
+                }else{
+                    window.location.href = '/code-guessr/games/'+ document.getElementById('gameId').value + '/summary';
                 }
             });
         });
-
-        function showEndRoundModal(roundResultDto){
-            alert("Round over!");
-        }
 
         function showAlert(text){
             document.getElementById('playerMoveText').innerHTML = text;

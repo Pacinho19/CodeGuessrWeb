@@ -109,13 +109,17 @@ public class GameService {
                 .stream()
                 .allMatch(p -> p.getPlayerRoundResultDto() != null);
 
-        if (!allPlayersFinishing) return new GameStateDto(getPlayerEndRoundMessage(name), null);
+        if (!allPlayersFinishing) return new GameStateDto(getPlayerEndRoundMessage(name));
 
         game.setStatus(GameStatus.FINISHED);
-        return new GameStateDto(null, getRoundResultDto(game));
+        return new GameStateDto(null);
     }
 
-    private RoundResultDto getRoundResultDto(Game game) {
+    public RoundResultDto getRoundResultDto(String gameId) {
+        Game game = findById(gameId);
+        if(game.getStatus()!=GameStatus.FINISHED)
+            throw new IllegalStateException("Game not finished!");
+
         return new RoundResultDto(getCorrectPath(game), getCorrectLineNumber(game), getPlayerAnswers(game));
     }
 

@@ -75,4 +75,14 @@ public class GameController {
         return "fragments/game-players :: gamePlayersFrag";
     }
 
+    @GetMapping(UIConfig.GAME_ROUND_SUMMARY)
+    public String gameRoundSummary(@PathVariable(value = "gameId") String gameId, Model model) {
+        try {
+            model.addAttribute("roundResult", gameService.getRoundResultDto(gameId));
+        } catch (Exception ex) {
+            model.addAttribute("error", ex.getMessage());
+            return gameHome(model);
+        }
+        return "round-summary";
+    }
 }
