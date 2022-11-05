@@ -111,6 +111,7 @@ public class GameService {
 
         if (!allPlayersFinishing) return new GameStateDto(getPlayerEndRoundMessage(name), null);
 
+        game.setStatus(GameStatus.FINISHED);
         return new GameStateDto(null, getRoundResultDto(game));
     }
 

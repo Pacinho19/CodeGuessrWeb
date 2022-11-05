@@ -16,7 +16,7 @@
         });
 
         function showEndRoundModal(roundResultDto){
-            console.log(roundResultDto.toString());
+            alert("Round over!");
         }
 
         function showAlert(text){
