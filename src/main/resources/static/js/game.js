@@ -9,16 +9,22 @@
                 var gameState = JSON.parse(result.body);
                 if(gameState.message!=null){
                     showAlert(gameState.message);
+                }else if(gameState.roundResultDto!=null){
+                    showEndRoundModal(gameState.roundResultDto);
                 }
             });
         });
 
-            function showAlert(text){
-                document.getElementById('playerMoveText').innerHTML = text;
-                $("#move-player-alert").fadeTo(2000, 500).slideUp(500, function() {
-                  $("#move-player-alert").slideUp(500);
-                });
-            };
+        function showEndRoundModal(roundResultDto){
+            console.log(roundResultDto.toString());
+        }
+
+        function showAlert(text){
+            document.getElementById('playerMoveText').innerHTML = text;
+            $("#move-player-alert").fadeTo(2000, 500).slideUp(500, function() {
+                $("#move-player-alert").slideUp(500);
+            });
+        };
 
     $(document).ready(function () {
         $.ajax({

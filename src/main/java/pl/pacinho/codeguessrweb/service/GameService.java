@@ -128,7 +128,8 @@ public class GameService {
     private PlayerAnswerDto getPlayerAnswer(PlayerDto playerDto) {
         return new PlayerAnswerDto(playerDto.getName(),
                 playerDto.getPlayerRoundResultDto().answerPath(),
-                playerDto.getPlayerRoundResultDto().answerLineNumber());
+                playerDto.getPlayerRoundResultDto().answerLineNumber(),
+                playerDto.getPlayerRoundResultDto().score());
     }
 
     private int getCorrectLineNumber(Game game) {
