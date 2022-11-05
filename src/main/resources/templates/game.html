@@ -33,6 +33,12 @@
           margin-right: auto;
         }
 
+
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -57,7 +63,6 @@
 
         <input type="hidden" id="gameId" th:value="${game.id}">
 
-        <input type="hidden" id="selectedFile">
 
         <div class="center" style="margin-top:1%;text-align:center;" id="codeToFindDiv">
             <h3 class="center">Code to find</h3>
@@ -69,12 +74,22 @@
         </div>
 
         <hr>
-        <div class="row" id="answerInputs">
-            <div class="col-md-4">
-                <input required id="codeLineNumberInput" type="number" min="1" style="width:100%;height:100%"  class="center" placeholder="Line Number">
+        <div id="answerInputs">
+            <div class="row">
+                <div class="col-md-4">
+                    <input required id="codeLineNumberInput" type="number" min="1" style="width:100%;height:100%"
+                           class="center" placeholder="Line Number">
+                </div>
+                <div class="col-md-8">
+                    <button type="button" id="submitButton" class="btn btn-primary center" style="width:100%"
+                            onclick="guess();">Guess
+                    </button>
+                </div>
             </div>
-            <div class="col-md-8">
-                <button type="button" id="submitButton" class="btn btn-primary center" style="width:100%" onclick="guess();">Guess</button>
+            <div class="row" style="margin-top:1%">
+                <div class="col-md-12">
+                    <input readonly style="width:100%;height:100%" placeholder="Selected path" id="selectedFile">
+                </div>
             </div>
         </div>
 
