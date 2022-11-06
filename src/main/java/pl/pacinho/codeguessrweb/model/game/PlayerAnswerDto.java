@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 
-public record PlayerAnswerDto(String name, String path, int lineNumber, BigDecimal score) {
+public record PlayerAnswerDto(PlayerDto player, String path, int lineNumber, BigDecimal score) {
 
     @Override
     public String toString() {

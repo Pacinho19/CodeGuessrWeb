@@ -7,11 +7,14 @@ import pl.pacinho.codeguessrweb.exception.GameNotFoundException;
 import pl.pacinho.codeguessrweb.model.game.*;
 import pl.pacinho.codeguessrweb.model.game.enums.GameStatus;
 import pl.pacinho.codeguessrweb.model.mapper.GameDtoMapper;
+import pl.pacinho.codeguessrweb.model.mapper.PlayerDtoMapper;
 import pl.pacinho.codeguessrweb.repository.GameRepository;
 import pl.pacinho.codeguessrweb.utils.StringUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -97,6 +100,54 @@ public class GameService {
                 .setPlayerRoundResultDto(
                         new PlayerRoundResultDto(result, answerDto.getFile(), answerDto.getLineNumber())
                 );
+
+        damage(game);
+    }
+
+    private void damage(Game game) {
+        LinkedList<Player> players = game.getPlayers();
+        if (checkCanDamage(players))
+            compareScoreAndDamage(players);
+    }
+
+    private void compareScoreAndDamage(LinkedList<Player> players) {
+        Player winPlayer = players.stream()
+                .max(Comparator.comparing(p -> p.getPlayerRoundResultDto().score()))
+                .get();
+
+        Player loser = getLoser(players, winPlayer);
+        loser.getHealthInfoDto().changeHealth(getDamageValue(winPlayer, loser));
+
+    }
+
+    private static int getDamageValue(Player winPlayer, Player loser) {
+        return winPlayer.getPlayerRoundResultDto().score().subtract(loser.getPlayerRoundResultDto().score()).intValue();
+    }
+
+    private Player getLoser(LinkedList<Player> players, Player winPlayer) {
+        return players.stream()
+                .filter(p -> !p.getName().equals(winPlayer.getName()))
+                .findFirst()
+                .get();
+    }
+
+    private boolean checkCanDamage(LinkedList<Player> players) {
+        return checkTheSameRound(players) && checkDifferentScore(players);
+    }
+
+    private boolean checkDifferentScore(LinkedList<Player> players) {
+        return players.stream()
+                .filter(p -> p.getPlayerRoundResultDto() != null)
+                .map(p -> p.getPlayerRoundResultDto().score())
+                .distinct()
+                .count() > 1;
+    }
+
+    private static boolean checkTheSameRound(LinkedList<Player> players) {
+        return players.stream()
+                .map(Player::getFinishedRound)
+                .distinct()
+                .count() == 1;
     }
 
     private String getCorrectPath(Game game) {
@@ -117,7 +168,7 @@ public class GameService {
 
     public RoundResultDto getRoundResultDto(String gameId) {
         Game game = findById(gameId);
-        if(game.getStatus()!=GameStatus.FINISHED)
+        if (game.getStatus() != GameStatus.FINISHED)
             throw new IllegalStateException("Game not finished!");
 
         return new RoundResultDto(getCorrectPath(game), getCorrectLineNumber(game), getPlayerAnswers(game));
@@ -130,11 +181,11 @@ public class GameService {
                 .toList();
     }
 
-    private PlayerAnswerDto getPlayerAnswer(PlayerDto playerDto) {
-        return new PlayerAnswerDto(playerDto.getName(),
-                playerDto.getPlayerRoundResultDto().answerPath(),
-                playerDto.getPlayerRoundResultDto().answerLineNumber(),
-                playerDto.getPlayerRoundResultDto().score());
+    private PlayerAnswerDto getPlayerAnswer(Player player) {
+        return new PlayerAnswerDto(PlayerDtoMapper.parse(player),
+                player.getPlayerRoundResultDto().answerPath(),
+                player.getPlayerRoundResultDto().answerLineNumber(),
+                player.getPlayerRoundResultDto().score());
     }
 
     private int getCorrectLineNumber(Game game) {

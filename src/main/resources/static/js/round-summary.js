@@ -1,8 +1,8 @@
 function init(){
-   const nodeList = document.querySelectorAll(".score-pb");
-   for (let i = 0; i < nodeList.length; i++) {
-     loadingProgress(nodeList[i]);
-   }
+//   const nodeList = document.querySelectorAll(".score-pb");
+//   for (let i = 0; i < nodeList.length; i++) {
+//     loadingProgress(nodeList[i]);
+//   }
 }
 
 function loadingProgress(progressBar){

@@ -2,7 +2,7 @@ package pl.pacinho.codeguessrweb.model.mapper;
 
 import pl.pacinho.codeguessrweb.model.game.Game;
 import pl.pacinho.codeguessrweb.model.game.GameDto;
-import pl.pacinho.codeguessrweb.model.game.PlayerDto;
+import pl.pacinho.codeguessrweb.model.game.Player;
 
 public class GameDtoMapper {
 
@@ -10,7 +10,7 @@ public class GameDtoMapper {
         return GameDto.builder()
                 .id(game.getId())
                 .startTime(game.getStartTime())
-                .players(game.getPlayers().stream().map(PlayerDto::getName).toList())
+                .players(game.getPlayers().stream().map(Player::getName).toList())
                 .status(game.getStatus())
                 .code(CodeDtoMapper.parse(game.getCode()))
                 .build();

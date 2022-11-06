@@ -27,6 +27,9 @@
           margin-right: auto;
         }
 
+
+
+
     </style>
 </head>
 <body onload="init();">
@@ -64,17 +67,31 @@
                 <div class="col-md-6" th:each="playerAnswer : ${roundResult.playersAnswers}">
                     <div class="card">
                         <div class="card-header" style="text-align:center">
-                            <h6 class="center" style="margin-top:auto;margin-bottom:auto" id="namePlayer"
-                                th:text="${playerAnswer.name}">Player 1 name</h6>
+                            <div class="row">
+                                <div class="col-md-5" style="text-align:left">
+                                    <h6 class="center" style="margin-top:auto;margin-bottom:auto" id="namePlayer"
+                                        th:text="${playerAnswer.player.name}">Player name</h6>
+                                </div>
+                                <div class="col-md-7" style="text-align:right">
+                                    <i class="bi bi-heart-fill" style="color:red;text-align:right"></i>
+                                    <progress th:value="${playerAnswer.player.healthInfoDto.health}"
+                                              max="5000"
+                                              style="text-align:right;margin-left:1%">
+                                    </progress>
+                                    <span th:text="${playerAnswer.player.healthInfoDto.health}">5000</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <h5 style="margin-left:1%;color:bluedisplay: inline-block;word-break: break-word;" id="pathPlayer"
-                                    th:text="${playerAnswer.path}">Example/Correct/Path/Example/Correct/Path/Example/Correct/Path</h5>
+                                <h5 style="margin-left:1%;color:bluedisplay: inline-block;word-break: break-word;"
+                                    id="pathPlayer"
+                                    th:text="${playerAnswer.path}">
+                                    Example/Correct/Path/Example/Correct/Path/Example/Correct/Path</h5>
                             </div>
                             <div class="row">
                                 <h5 style="margin-left:1%;color:blue" id="lineNumberPlayer"
-                                    th:text="${playerAnswer.lineNumber}">20</h5>
+                                    th:text="${'Line number: ' + playerAnswer.lineNumber}">20</h5>
                             </div>
                             <div class="row">
                                 <progress th:value="${playerAnswer.score}" style="width:100%" min="0" max="5000"

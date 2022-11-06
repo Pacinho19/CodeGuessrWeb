@@ -4,7 +4,7 @@ import org.springframework.stereotype.Repository;
 import pl.pacinho.codeguessrweb.exception.GameNotFoundException;
 import pl.pacinho.codeguessrweb.model.game.Game;
 import pl.pacinho.codeguessrweb.model.game.GameDto;
-import pl.pacinho.codeguessrweb.model.game.PlayerDto;
+import pl.pacinho.codeguessrweb.model.game.Player;
 import pl.pacinho.codeguessrweb.model.game.enums.GameStatus;
 import pl.pacinho.codeguessrweb.model.mapper.GameDtoMapper;
 
@@ -50,7 +50,7 @@ public class GameRepository {
         if (game.getPlayers().get(0).getName().equals(name))
             throw new IllegalStateException("Game " + gameId + " was created by you!");
 
-        game.getPlayers().add(new PlayerDto(name));
+        game.getPlayers().add(new Player(name));
         return game;
     }
 

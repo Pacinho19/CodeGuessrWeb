@@ -17,7 +17,7 @@ public class Game {
     private String id;
     @Setter
     private GameStatus status;
-    private LinkedList<PlayerDto> players;
+    private LinkedList<Player> players;
     private LocalDateTime startTime;
     @Setter
     private String winnerInfo;
@@ -25,14 +25,14 @@ public class Game {
 
     public Game(String player1) {
         players = new LinkedList<>();
-        players.add(new PlayerDto(player1));
+        players.add(new Player(player1));
         this.id = UUID.randomUUID().toString();
         this.status = GameStatus.NEW;
         this.startTime = LocalDateTime.now();
         this.code = CodeFinderUtils.getRandomCode();
     }
 
-    public PlayerDto getPlayer(String playerName) {
+    public Player getPlayer(String playerName) {
         return players.stream()
                 .filter(p -> p.getName().equals(playerName))
                 .findFirst()
