@@ -11,7 +11,7 @@ function init(){
 }
 
 function decreaseScore(progressBar){
-    document.getElementById('hit-score').style.backgroundColor = "red";
+    document.getElementById('hit-score').style.color = "red";
 
     var prevHealth = document.getElementById('prevHealth').value;
     var actualScore = document.getElementById('health').value;
@@ -20,7 +20,7 @@ function decreaseScore(progressBar){
         progressBar.value = prevHealth;
         var downloadTimer = setInterval(function(){
             if(timeleft<=actualScore){
-                document.getElementById('hit-score').style.backgroundColor = "";
+                document.getElementById('hit-score').style.color = "";
                 clearInterval(downloadTimer);
             }
             progressBar.value =  progressBar.value-1;
