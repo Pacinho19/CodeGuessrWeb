@@ -73,12 +73,19 @@
                                         th:text="${playerAnswer.player.name}">Player name</h6>
                                 </div>
                                 <div class="col-md-7" style="text-align:right">
+                                    <th:block th:if="${playerAnswer.player.healthInfoDto.hit}">
+                                        <input type="hidden" id="prevHealth" th:value="${playerAnswer.player.healthInfoDto.prevHealth}">
+                                        <input type="hidden" id="health" th:value="${playerAnswer.player.healthInfoDto.health}">
+                                    </th:block>
                                     <i class="bi bi-heart-fill" style="color:red;text-align:right"></i>
                                     <progress th:value="${playerAnswer.player.healthInfoDto.health}"
                                               max="5000"
-                                              style="text-align:right;margin-left:1%">
+                                              style="text-align:right;margin-left:1%"
+                                    th:id="${playerAnswer.player.healthInfoDto.hit ? 'hit-pb' : 'pb'}">
                                     </progress>
-                                    <span th:text="${playerAnswer.player.healthInfoDto.health}">5000</span>
+                                    <span
+                                            th:id="${playerAnswer.player.healthInfoDto.hit ? 'hit-score' : 'score'}"
+                                            th:text="${playerAnswer.player.healthInfoDto.health}">5000</span>
                                 </div>
                             </div>
                         </div>

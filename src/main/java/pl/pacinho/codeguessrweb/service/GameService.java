@@ -114,10 +114,10 @@ public class GameService {
         Player winPlayer = players.stream()
                 .max(Comparator.comparing(p -> p.getPlayerRoundResultDto().score()))
                 .get();
+        winPlayer.getHealthInfoDto().setHit(false);
 
         Player loser = getLoser(players, winPlayer);
-        loser.getHealthInfoDto().changeHealth(getDamageValue(winPlayer, loser));
-
+        loser.getHealthInfoDto().hit(getDamageValue(winPlayer, loser));
     }
 
     private static int getDamageValue(Player winPlayer, Player loser) {
