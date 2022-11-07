@@ -93,7 +93,9 @@
 
     stompClient = Stomp.over(socket);
     function guess(){
-        var lineNumber = document.getElementById("codeLineNumberInput").value;
+        var codeLineNumberInput = document.getElementById("codeLineNumberInput");
+        if(codeLineNumberInput==null) return;
+        var lineNumber = codeLineNumberInput.value;
         var gameId = document.getElementById('gameId').value;
         var file = document.getElementById('selectedFile').value;
 
