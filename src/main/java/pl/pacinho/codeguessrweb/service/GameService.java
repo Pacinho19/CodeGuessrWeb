@@ -19,6 +19,7 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
+import static pl.pacinho.codeguessrweb.model.game.enums.GameStatus.FINISHED;
 import static pl.pacinho.codeguessrweb.model.game.enums.GameStatus.IN_PROGRESS;
 
 @RequiredArgsConstructor
@@ -70,8 +71,11 @@ public class GameService {
     }
 
     public void checkGamePage(GameDto game, String name) {
+        if (game.getStatus() == FINISHED)
+            throw new IllegalStateException("Game " + game.getId() + " finished!");
+
         if (game.getStatus() != IN_PROGRESS)
-            throw new IllegalStateException("Game " + game.getId() + " not started !");
+            throw new IllegalStateException("Game " + game.getId() + " not started!");
 
         if (!checkPlayGame(name, game))
             throw new IllegalStateException("Game " + game.getId() + " in progress! You can't open game page!");
@@ -120,7 +124,7 @@ public class GameService {
     private void checkNextRound(Game game, LinkedList<Player> players) {
         if (!checkTheSameRound(players)) return;
         if (!checkPlayersHealth(players)) {
-            game.setStatus(GameStatus.FINISHED);
+            game.setStatus(FINISHED);
             return;
         }
         nextRound(game);
@@ -209,7 +213,7 @@ public class GameService {
     }
 
     private String getGameOverInfo(Game game) {
-        if (game.getStatus() != GameStatus.FINISHED) return null;
+        if (game.getStatus() != FINISHED) return null;
         return "Game over ! Player " +
                getWinPlayerName(game) +
                " win the game!";

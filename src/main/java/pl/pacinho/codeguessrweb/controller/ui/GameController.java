@@ -44,6 +44,8 @@ public class GameController {
         try {
             GameDto game = gameService.findDtoById(gameId);
             if (game.getStatus() == GameStatus.IN_PROGRESS) return "redirect:" + UIConfig.GAMES + "/" + gameId;
+            if (game.getStatus() == GameStatus.FINISHED)
+                throw new IllegalStateException("Game " + gameId + " finished!");
 
             model.addAttribute("game", game);
             model.addAttribute("joinGame", gameService.canJoin(game, authentication.getName()));
