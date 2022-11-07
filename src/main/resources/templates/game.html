@@ -33,10 +33,21 @@
           margin-right: auto;
         }
 
+        .zoom-in-out-box {
+          animation: zoom-in-zoom-out 1s ease infinite;
+        }
 
-
-
-
+        @keyframes zoom-in-zoom-out {
+          0% {
+            transform: scale(1, 1);
+          }
+          50% {
+            transform: scale(1.1, 1.1);
+          }
+          100% {
+            transform: scale(1, 1);
+          }
+        }
     </style>
 </head>
 <body>
@@ -61,6 +72,15 @@
 
         <input type="hidden" id="gameId" th:value="${game.id}">
 
+        <div id="endRoundGiv" style="display:none;margin-top:1%">
+            <div class="row">
+                <h3 class="center" id="endRoundText">End round in <span id="roundStartTime">15 seconds</span></h3>
+            </div>
+            <div class="row">
+                <progress value="15" max="15" id="progressBarEndRound"
+                          style="text-align:center;height:40px;width:100%;"></progress>
+            </div>
+        </div>
 
         <div class="center" style="margin-top:1%;text-align:center;" id="codeToFindDiv">
             <h3 class="center">Code to find</h3>
@@ -94,9 +114,9 @@
         <hr>
         <div id="codeContent" style="margin-top:1%"></div>
 
-<!--        <button type="button" data-toggle="modal" data-target="#roundOverModal" data-backdrop="static"-->
-<!--                data-keyboard="false"> modal test-->
-<!--        </button>-->
+        <!--        <button type="button" data-toggle="modal" data-target="#roundOverModal" data-backdrop="static"-->
+        <!--                data-keyboard="false"> modal test-->
+        <!--        </button>-->
 
     </div>
     <div class="col-md-2">

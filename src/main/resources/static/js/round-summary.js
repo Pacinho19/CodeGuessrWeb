@@ -5,7 +5,7 @@ function init(){
 //   }
 
     var hitPB = document.getElementById('hit-pb');
-    if(hitPB==null) return;
+    if(hitPB==null)  loadingGame();;
 
     decreaseScore(hitPB);
 }

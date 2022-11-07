@@ -115,7 +115,7 @@ public class GameService {
 
     private void damage(Game game) {
         LinkedList<Player> players = game.getPlayers();
-        if (checkCanDamage(players))
+        if (checkTheSameRound(players))
             compareScoreAndDamage(players);
 
         checkNextRound(game, players);
@@ -139,13 +139,22 @@ public class GameService {
     }
 
     private void compareScoreAndDamage(LinkedList<Player> players) {
+        if (!checkDifferentScore(players)) {
+            changeHealth(players);
+            return;
+        }
+
         Player winPlayer = players.stream()
                 .max(Comparator.comparing(p -> p.getPlayerRoundResultDto().score()))
                 .get();
         winPlayer.getHealthInfoDto().setHit(false);
 
         Player loser = getLoser(players, winPlayer);
-        loser.getHealthInfoDto().hit(getDamageValue(winPlayer, loser));
+        loser.getHealthInfoDto().hit(getDamageValue(winPlayer, loser), true);
+    }
+
+    private void changeHealth(LinkedList<Player> players) {
+        players.forEach(p -> p.getHealthInfoDto().hit(0, false));
     }
 
     private static int getDamageValue(Player winPlayer, Player loser) {
@@ -157,10 +166,6 @@ public class GameService {
                 .filter(p -> !p.getName().equals(winPlayer.getName()))
                 .findFirst()
                 .get();
-    }
-
-    private boolean checkCanDamage(LinkedList<Player> players) {
-        return checkTheSameRound(players) && checkDifferentScore(players);
     }
 
     private boolean checkDifferentScore(LinkedList<Player> players) {

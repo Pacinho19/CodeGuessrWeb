@@ -9,6 +9,7 @@
                 var gameState = JSON.parse(result.body);
                 if(gameState.message!=null){
                     showAlert(gameState.message);
+                    endRoundTimer();
                 }else{
                     window.location.href = '/code-guessr/games/'+ document.getElementById('gameId').value + '/summary';
                 }
@@ -21,6 +22,26 @@
                 $("#move-player-alert").slideUp(500);
             });
         };
+
+        function endRoundTimer(){
+            document.getElementById("endRoundGiv").style.display = 'block';
+            document.getElementById('endRoundText').classList.add("zoom-in-out-box");
+
+                var max = document.getElementById("progressBarEndRound").max;
+                var timeleft = max;
+                var downloadTimer = setInterval(function(){
+                  var nextPbValue = timeleft -1;
+                  document.getElementById("progressBarEndRound").value = nextPbValue;
+                  document.getElementById("roundStartTime").innerHTML = nextPbValue + ' seconds';
+                  timeleft -= 1;
+
+                   if(timeleft <= 0){
+                        clearInterval(downloadTimer);
+                        guess();
+                   }
+                }, 1000);
+        }
+
 
     $(document).ready(function () {
         $.ajax({

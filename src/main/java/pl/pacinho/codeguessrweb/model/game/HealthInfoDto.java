@@ -16,9 +16,9 @@ public class HealthInfoDto {
         this.prevHealth = 5000;
     }
 
-    public void hit(int subtractHealthValue) {
+    public void hit(int subtractHealthValue, boolean hitB) {
         prevHealth = health;
         health = health - subtractHealthValue;
-        hit = true;
+        hit = hitB;
     }
 }
