@@ -12,7 +12,7 @@ public class GameDtoMapper {
                 .startTime(game.getStartTime())
                 .players(game.getPlayers().stream().map(Player::getName).toList())
                 .status(game.getStatus())
-                .code(CodeDtoMapper.parse(game.getCode()))
+                .code(CodeDtoMapper.parse(game.getCurrentGameCode()))
                 .build();
     }
 }

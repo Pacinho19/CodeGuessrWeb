@@ -26,13 +26,15 @@ function decreaseScore(progressBar){
         progressBar.value = prevHealth;
         var downloadTimer = setInterval(function(){
             timeleft -= 1;
-            if(timeleft<=actualScore){
+            progressBar.value =  progressBar.value-1;
+            hitScoreLabel.innerHTML = progressBar.value;
+
+            if(timeleft<=actualScore || progressBar.value==0){
                 document.getElementById('hit-score').style.color = "";
                 document.getElementById('hit-div').classList.remove("zoom-in-out-box");
                 clearInterval(downloadTimer);
+                loadingGame();
             }
-            progressBar.value =  progressBar.value-1;
-            hitScoreLabel.innerHTML = progressBar.value;
         }, 0);
 
         setTimeout(
@@ -56,4 +58,19 @@ function loadingProgress(progressBar){
         progressBar.value =  progressBar.value-1;
         timeleft -= 1;
     }, 0);
+}
+
+ function loadingGame(){
+    document.getElementById("startRoundDiv").style.display = 'block';
+    var max = document.getElementById("progressBar").max;
+    var timeleft = max;
+    var downloadTimer = setInterval(function(){
+        if(timeleft <= 0){
+            clearInterval(downloadTimer);
+            window.location.href = '/code-guessr/games/'+ document.getElementById('gameId').value;
+        }
+        var nextPbValue =  max - timeleft;
+        document.getElementById("progressBar").value = nextPbValue;
+        timeleft -= 1;
+    }, 1000);
 }

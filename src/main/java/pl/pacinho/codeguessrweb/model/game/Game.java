@@ -8,8 +8,7 @@ import pl.pacinho.codeguessrweb.model.project.Code;
 import pl.pacinho.codeguessrweb.utils.CodeFinderUtils;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 public class Game {
@@ -21,7 +20,8 @@ public class Game {
     private LocalDateTime startTime;
     @Setter
     private String winnerInfo;
-    private Code code;
+    private List<Code> codes;
+    private int roundNumber;
 
     public Game(String player1) {
         players = new LinkedList<>();
@@ -29,7 +29,9 @@ public class Game {
         this.id = UUID.randomUUID().toString();
         this.status = GameStatus.NEW;
         this.startTime = LocalDateTime.now();
-        this.code = CodeFinderUtils.getRandomCode();
+        this.codes = new ArrayList<>();
+        codes.add(CodeFinderUtils.getRandomCode());
+        this.roundNumber = 1;
     }
 
     public Player getPlayer(String playerName) {
@@ -37,5 +39,18 @@ public class Game {
                 .filter(p -> p.getName().equals(playerName))
                 .findFirst()
                 .orElseThrow(() -> new PlayerNotFoundException(playerName));
+    }
+
+    public void nextRound() {
+        codes.add(CodeFinderUtils.getRandomCode());
+        roundNumber++;
+    }
+
+    public Code getEndedRoundCode() {
+        return status == GameStatus.FINISHED ? getCurrentGameCode() : codes.get(roundNumber - 2);
+    }
+
+    public Code getCurrentGameCode() {
+        return codes.get(roundNumber - 1);
     }
 }

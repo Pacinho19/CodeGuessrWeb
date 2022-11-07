@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-public record RoundResultDto(String correctPath, int correctLineNumber, List<PlayerAnswerDto> playersAnswers) {
+public record RoundResultDto(String gameId, String correctPath, int correctLineNumber, List<PlayerAnswerDto> playersAnswers, boolean nextRound, String message) {
 
     @Override
     public String toString() {

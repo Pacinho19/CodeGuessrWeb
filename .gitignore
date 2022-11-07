@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/java/pl/pacinho/codeguessrweb/config/projects/ProjectsSourcesConfig.java
