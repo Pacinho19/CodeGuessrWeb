@@ -49,6 +49,9 @@ public class GameLogicService {
     public void checkAnswer(AnswerDto answerDto, String playerName, boolean task) {
         Game game = findById(answerDto.getGameId());
 
+        if (!answerDto.getRoundId().equals(game.getCurrentGameCode().roundId()))
+            throw  new IllegalStateException("Round id: " + answerDto.getRoundId() + " is invalid!");
+
         if (task)
             checkConnectionTask(game.getId(), game.getRoundNumber());
 
@@ -217,7 +220,7 @@ public class GameLogicService {
     }
 
     public void emptyAnswerOpponent(Game game) {
-        checkAnswer(new AnswerDto(game.getId(), 0, ""), getBadPlayerName(game), false);
+        checkAnswer(new AnswerDto(game.getId(), game.getCurrentGameCode().roundId(), 0, ""), getBadPlayerName(game), false);
     }
 
     private String getBadPlayerName(Game game) {

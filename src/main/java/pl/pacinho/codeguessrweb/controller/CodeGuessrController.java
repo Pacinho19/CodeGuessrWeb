@@ -30,9 +30,14 @@ public class CodeGuessrController {
 
     @MessageMapping("/guess")
     public void guess(@Payload AnswerDto answerDto, Authentication authentication) {
-        gameService.checkAnswer(answerDto, authentication.getName());
-        simpMessagingTemplate.convertAndSend("/game-status/" + answerDto.getGameId(),
-                gameService.getGameStateInfo(answerDto.getGameId(), authentication.getName()));
+        try {
+            gameService.checkAnswer(answerDto, authentication.getName());
+            simpMessagingTemplate.convertAndSend("/game-status/" + answerDto.getGameId(),
+                    gameService.getGameStateInfo(answerDto.getGameId(), authentication.getName()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 

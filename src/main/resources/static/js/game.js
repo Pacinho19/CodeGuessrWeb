@@ -117,10 +117,11 @@
         if(codeLineNumberInput==null) return;
         var lineNumber = codeLineNumberInput.value;
         var gameId = document.getElementById('gameId').value;
+        var roundId = document.getElementById('roundId').value;
         var file = document.getElementById('selectedFile').value;
 
         stompClient.send("/app/guess", {},
-                            JSON.stringify({'gameId':gameId, 'lineNumber': lineNumber, 'file' : file}));
+                            JSON.stringify({'gameId':gameId,'roundId':roundId, 'lineNumber': lineNumber, 'file' : file}));
 
         document.getElementById("answerInputs").remove();
     }

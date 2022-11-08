@@ -7,6 +7,7 @@ import pl.pacinho.codeguessrweb.tools.ProjectsTools;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 
 public class CodeFinderUtils {
@@ -32,6 +33,6 @@ public class CodeFinderUtils {
         String text = lines.get(RandomUtils.getInt(0, lines.size() - 1));
 
         System.out.println(filePath + " " + allLines.indexOf(text));
-        return new Code(project.getName(), filePath, allLines.indexOf(text), allLines);
+        return new Code(UUID.randomUUID().toString(), project.getName(), filePath, allLines.indexOf(text), allLines);
     }
 }

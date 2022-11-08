@@ -11,7 +11,10 @@ function init(){
 }
 
 function decreaseScore(progressBar){
-    document.getElementById('hit-div').classList.add("zoom-in-out-box");
+    var hitDiv = document.getElementById('hit-div');
+    if(hitDiv==null) return;
+
+    hitDiv.classList.add("zoom-in-out-box");
     document.getElementById('damage-value').classList.add("w3-animate-left");
 
     var hitScoreLabel = document.getElementById('hit-score');

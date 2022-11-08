@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 public class AnswerDto {
 
     private String gameId;
+    private String roundId;
     private int lineNumber;
     private String file;
 

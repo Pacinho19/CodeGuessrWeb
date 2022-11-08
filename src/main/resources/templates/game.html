@@ -48,12 +48,6 @@
             transform: scale(1, 1);
           }
         }
-
-
-
-
-
-
     </style>
 </head>
 <body>
@@ -86,6 +80,7 @@
         </div>
 
         <input type="hidden" id="gameId" th:value="${game.id}">
+        <input type="hidden" id="roundId" th:value="${game.code.roundId}">
 
         <div id="endRoundGiv" style="display:none;margin-top:1%">
             <div class="row">
