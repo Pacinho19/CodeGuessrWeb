@@ -18,6 +18,10 @@
                     goToSummary();
                 }
             });
+
+            privateStompClient.subscribe('/users/round/' + gameId, function(result) {
+                alert(result.body);
+            });
         });
 
         function showConnectionLostAlert(message){

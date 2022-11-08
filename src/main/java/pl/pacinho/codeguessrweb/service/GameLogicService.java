@@ -50,7 +50,7 @@ public class GameLogicService {
         Game game = findById(answerDto.getGameId());
 
         if (!answerDto.getRoundId().equals(game.getCurrentGameCode().roundId()))
-            throw  new IllegalStateException("Round id: " + answerDto.getRoundId() + " is invalid!");
+            throw  new IllegalStateException("Round is over! Cannot send answer!");
 
         if (task)
             checkConnectionTask(game.getId(), game.getRoundNumber());

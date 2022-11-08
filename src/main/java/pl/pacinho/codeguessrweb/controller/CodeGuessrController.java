@@ -35,7 +35,7 @@ public class CodeGuessrController {
             simpMessagingTemplate.convertAndSend("/game-status/" + answerDto.getGameId(),
                     gameService.getGameStateInfo(answerDto.getGameId(), authentication.getName()));
         } catch (Exception e) {
-            e.printStackTrace();
+            simpMessagingTemplate.convertAndSendToUser(authentication.getName(), "/round/" + answerDto.getGameId(),e.getMessage());
         }
 
     }
