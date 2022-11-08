@@ -269,4 +269,16 @@ public class GameLogicService {
         return (canPlay ? "" : "Waiting for opponent. ")
                + "Round will be finished soon ...  ";
     }
+
+    public List<PlayerHealthInfoDto> getPlayersHealthInfo(GameDto gameDto) {
+        Game game = findById(gameDto.getId());
+        return game.getPlayers()
+                .stream()
+                .map(this::getPlayerHealthInfo)
+                .toList();
+    }
+
+    private PlayerHealthInfoDto getPlayerHealthInfo(Player p) {
+        return new PlayerHealthInfoDto(p.getName(), p.getHealthInfoDto().getHealth());
+    }
 }

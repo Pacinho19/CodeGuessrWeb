@@ -65,6 +65,7 @@ public class GameController {
             model.addAttribute("game", game);
             model.addAttribute("canPlay", gameService.checkPlayRound(game, authentication.getName()));
             model.addAttribute("endRoundSoonMessage", gameService.checkEndRoundSoonMessage(authentication.getName(), game));
+            model.addAttribute("playersHealth", gameService.getPlayersHealthInfo(game));
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return gameHome(model);

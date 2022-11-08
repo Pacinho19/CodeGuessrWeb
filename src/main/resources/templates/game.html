@@ -48,6 +48,12 @@
             transform: scale(1, 1);
           }
         }
+
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -67,7 +73,7 @@
             <h4 class="warning" id="warningMessageTxt">Possible connection lost with opponent... Waiting ..</h4>
         </div>
 
-        <div style="text-align:center;margin-top:1%" th:if="${endRoundSoonMessage!=null}" class="alert alert-warning" >
+        <div style="text-align:center;margin-top:1%" th:if="${endRoundSoonMessage!=null}" class="alert alert-warning">
             <h4 class="warning" th:text="${endRoundSoonMessage}"></h4>
         </div>
 
@@ -123,87 +129,27 @@
         <hr>
         <div id="codeContent" style="margin-top:1%"></div>
 
-        <!--        <button type="button" data-toggle="modal" data-target="#roundOverModal" data-backdrop="static"-->
-        <!--                data-keyboard="false"> modal test-->
-        <!--        </button>-->
-
     </div>
     <div class="col-md-2">
-        <div class="alert alert-success" id="move-player-alert" style="display:none">
-            <button type="button" class="close" data-dismiss="alert">x</button>
-            <strong id="playerMoveText"> </strong>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="roundOverModal"
-     tabindex="-1"
-     aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div style="width:100%;text-align:center">
-                    <h2> Round over! </h2>
-                </div>
+        <div th:each="playerHealth : ${playersHealth}" style="margin-left:6%">
+            <div class="row">
+                <span th:text="${playerHealth.name}">Player name</span>
             </div>
+            <div class="row">
+                <i class="bi bi-heart-fill" style="color:red;text-align:right"></i>
+                <progress th:value="${playerHealth.health}"
+                          max="5000"
+                          style="text-align:right;margin-left:1%;margin-top:auto;margin-bottom:auto">
+                </progress>
+                <span th:text="${playerHealth.health}" style="margin-left:1%">5000</span>
+            </div>
+        </div>
 
-            <div class="modal-body">
-
-                <div class="row">
-                    <h5 style="margin-left:1%"><label for="correctPath">Correct Path: </label></h5>
-                    <h5 style="margin-left:1%;color:green" id="correctPath">Example/Correct/Path</h5>
-                </div>
-                <div class="row">
-                    <h5 style="margin-left:1%"><label for="correctLine">Correct Line: </label></h5>
-                    <h5 style="margin-left:1%;color:green" id="correctLine">100</h5>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header" style="text-align:center">
-                                <h6 class="center" style="margin-top:auto;margin-bottom:auto" id="namePlayer1">Player 1
-                                    name</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <h5 style="margin-left:1%;color:blue" id="pathPlayer1">Example/Correct/Path</h5>
-                                </div>
-                                <div class="row">
-                                    <h5 style="margin-left:1%;color:blue" id="lineNumberPlayer1">20</h5>
-                                </div>
-                                <div class="row">
-                                    <progress value="0" style="width:100%" min="0" max="5000"
-                                              id="scorePlayer1"></progress>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header" style="text-align:center">
-                                <h6 class="center" style="margin-top:auto;margin-bottom:auto" id="namePlayer2">Player 2
-                                    name</h6>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <h5 style="margin-left:1%;color:blue" id="pathPlayer2">Example/Correct/Path</h5>
-                                </div>
-                                <div class="row">
-                                    <h5 style="margin-left:1%;color:blue" id="lineNumberPlayer2">20</h5>
-                                </div>
-                                <div class="row">
-                                    <progress value="0" style="width:100%" min="0" max="5000"
-                                              id="scorePlayer2"></progress>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+        <div class="row" style="width:95%;margin-left:2%;margin-top:2%">
+            <div class="alert alert-success" id="move-player-alert"
+                 style="display:none;width:100%">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                <strong id="playerMoveText">Player name</strong>
             </div>
         </div>
     </div>

@@ -84,4 +84,8 @@ public class GameService {
     public String checkEndRoundSoonMessage(String name, GameDto game) {
         return gameLogicService.checkEndRoundSoonMessage(name, game);
     }
+
+    public List<PlayerHealthInfoDto> getPlayersHealthInfo(GameDto game) {
+        return gameLogicService.getPlayersHealthInfo(game);
+    }
 }
