@@ -7,14 +7,33 @@
                 var gameId = document.getElementById('gameId').value;
                 privateStompClient.subscribe('/game-status/' + gameId, function(result) {
                 var gameState = JSON.parse(result.body);
-                if(gameState.message!=null){
+                if(gameState.message!=null && gameState.connection){
                     showAlert(gameState.message);
                     endRoundTimer();
-                }else{
-                    window.location.href = '/code-guessr/games/'+ document.getElementById('gameId').value + '/summary';
+                }
+                else if(gameState.connection==false){
+                    showConnectionLostAlert(gameState.message);
+                    setTimeout(function() {goToSummary();}, 3000);
+                } else{
+                    goToSummary();
                 }
             });
         });
+
+        function showConnectionLostAlert(message){
+            document.getElementById('warningMessageDiv').classList.remove("zoom-in-out-box");
+            document.getElementById("warningMessageTxt").innerHTML= message;
+        }
+
+        function goToSummary(){
+            window.location.href = '/code-guessr/games/'+ document.getElementById('gameId').value + '/summary';
+        }
+
+        function checkOpponentLeft(){
+             document.getElementById("warningMessageDiv").style.display = 'block';
+             document.getElementById("endRoundGiv").style.display = 'none';
+             document.getElementById('warningMessageDiv').classList.add("zoom-in-out-box");
+        }
 
         function showAlert(text){
             document.getElementById('playerMoveText').innerHTML = text;
@@ -38,6 +57,7 @@
                    if(timeleft <= 0){
                         clearInterval(downloadTimer);
                         guess();
+                        checkOpponentLeft();
                    }
                 }, 1000);
         }

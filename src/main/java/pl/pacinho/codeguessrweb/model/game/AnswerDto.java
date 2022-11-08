@@ -1,8 +1,12 @@
 package pl.pacinho.codeguessrweb.model.game;
 
 import com.google.gson.Gson;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 public class AnswerDto {
 
